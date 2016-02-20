@@ -58,7 +58,7 @@ void player::kick(){
 }
 
 void player::moveLeft(){
-    
+    std::cout<<"The left moving event\n";
 }
 
 void player::moveRight(){
