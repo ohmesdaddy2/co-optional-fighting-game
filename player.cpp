@@ -37,12 +37,12 @@ bool player::setup(SDL_Texture* passedImage, SDL_Renderer* passedScreen, int x, 
     frames[1].w = 282;
     frames[1].h = 356;
     
-    frames[2].x = 566;
+    frames[2].x = 565;
     frames[2].y = 0;
     frames[2].w = 282;
     frames[2].h = 356;
     
-    frames[3].x = 846;
+    frames[3].x = 855;
     frames[3].y = 0;
     frames[3].w = 282;
     frames[3].h = 356;
@@ -51,7 +51,14 @@ bool player::setup(SDL_Texture* passedImage, SDL_Renderer* passedScreen, int x, 
 }
 
 void player::punch(){
-    state = STANCE_LEFT_FLAT_PUNCH;
+    if (!firstPunch){
+        state = STANCE_LEFT_FLAT_PUNCH;
+        firstPunch =true;
+    }
+    else {
+        state = STANCE_RIGHT_FLAT_PUNCH;
+        firstPunch = false;
+    }
 }
 
 void player::kick(){
@@ -74,6 +81,7 @@ void player::render(){
     switch (state){
         case STANCE_IDLE: SDL_RenderCopy(screen, image, &frames[0], &coords); break;
         case STANCE_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image, &frames[1], &coords); break;
+        case STANCE_RIGHT_FLAT_PUNCH: SDL_RenderCopy(screen, image, &frames[2], &coords); break;
         case STANCE_KICK: SDL_RenderCopy(screen, image, &frames[3], &coords); break;;
     }
 }

@@ -35,6 +35,7 @@ bool game::init(){
 void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
     switch(sym){
         case SDLK_a: user.punch(); break;
+        case SDLK_s: user.kick(); break;
         default: break;
     }
 }
@@ -42,6 +43,7 @@ void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
 void game::OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode){
     switch(sym){
         case SDLK_a: user.reset(); break;
+        case SDLK_s: user.reset(); break;
         default: break;
     }
 }
