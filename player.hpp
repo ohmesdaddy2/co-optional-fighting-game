@@ -33,6 +33,8 @@ public:
     
     void kick();
     
+    void reset();
+    
     void render();
     
 protected:

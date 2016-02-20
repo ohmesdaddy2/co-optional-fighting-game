@@ -17,8 +17,9 @@
 #include "player.hpp"
 #include "fist.hpp"
 #include "foot.hpp"
+#include "Gevents.hpp"
 
-class game {
+class game:public Gevents {
 public:
     game();
     game(const game& orig);
@@ -30,12 +31,21 @@ public:
     
 private:
     
+    void OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode);
+    
+    void OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode);
+    
+    bool done;
+    
+    SDL_Event inputs;
+    
     SDL_Window* window;
     
-    SDL_Texture* player;
+    SDL_Texture* playerSprite;
     
     SDL_Renderer* screen;
     
+    player user;
 };
 
 #endif	/* GAME_HPP */
