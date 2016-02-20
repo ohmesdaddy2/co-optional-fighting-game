@@ -62,9 +62,9 @@ void player::moveLeft(){
 }
 
 void player::moveRight(){
-    
+    std::cout<<"The right moving event\n";
 }
 
 void player::render(){
-    
+    SDL_RenderCopy(screen, image, &frames[0], &coords);
 }
