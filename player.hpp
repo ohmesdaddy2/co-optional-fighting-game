@@ -8,6 +8,8 @@
 #ifndef PLAYER_HPP
 #define	PLAYER_HPP
 
+#include <iostream>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 
@@ -37,7 +39,7 @@ protected:
     
     bool firstPunch;
     
-    bool kick;
+    bool kicking;
     
     short state;
     

@@ -17,7 +17,7 @@ player::~player() {
 }
 
 bool player::setup(SDL_Texture* passedImage, SDL_Renderer* passedScreen, int x, int y){
-    kick = false;
+    kicking = false;
     firstPunch = false;
     image = passedImage;
     screen = passedScreen;
