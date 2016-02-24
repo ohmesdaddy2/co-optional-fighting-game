@@ -38,14 +38,20 @@ void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
         case SDLK_s: user.kick(); break;
         default: break;
     }
+    
+    if (sym == SDLK_LEFT){
+        user.moveRight = false;
+        user.moveLeft = true;
+    }
+    if (sym == SDLK_RIGHT){
+        user.moveLeft = false;
+        user.moveRight = true;;
+        
+    }
 }
 
 void game::OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode){
-    switch(sym){
-        case SDLK_a: user.reset(); break;
-        case SDLK_s: user.reset(); break;
-        default: break;
-    }
+    user.reset();
 }
 
 int game::run(){
@@ -63,13 +69,16 @@ int game::run(){
             }
         }
         
+        user.stepLeft();
+        user.stepRight();
+        
         SDL_RenderClear(screen);
         
         user.render();
         
         SDL_RenderPresent(screen);
         
-        SDL_Delay(1000/60);
+        SDL_Delay(10);
     }
     SDL_Quit();
     return 0;

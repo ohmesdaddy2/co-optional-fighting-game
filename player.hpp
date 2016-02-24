@@ -25,9 +25,9 @@ public:
     
     bool setup(SDL_Texture* passedImage, SDL_Renderer* passedScreen, int x, int y);
     
-    void moveRight();
+    void stepRight();
     
-    void moveLeft(); 
+    void stepLeft(); 
     
     void punch();
     
@@ -37,7 +37,13 @@ public:
     
     void render();
     
+    bool moveLeft;
+    
+    bool moveRight;
+    
 protected:
+    
+    bool faceLeft;
     
     bool firstPunch;
     
@@ -55,7 +61,9 @@ protected:
     
     short damageType;
     
-    SDL_Rect frames[4];
+    short moveSpeed;
+    
+    SDL_Rect frames[8];
     
     SDL_Texture* image;
     
