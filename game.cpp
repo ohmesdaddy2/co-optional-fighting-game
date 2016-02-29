@@ -7,13 +7,13 @@
 
 #include "game.hpp"
 
-game::game() {
+game::game(){
 }
 
-game::game(const game& orig) {
+game::game(const game& orig){
 }
 
-game::~game() {
+game::~game(){
 }
 
 bool game::init(){
@@ -33,17 +33,17 @@ bool game::init(){
 }
 
 void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
-    switch(sym){
-        case SDLK_a: user.punch(); break;
-        case SDLK_s: user.kick(); break;
+    switch(unicode){
+        case SDL_SCANCODE_A: user.punch(); break;
+        case SDL_SCANCODE_S: user.kick(); break;
         default: break;
     }
     
-    if (sym == SDLK_LEFT){
+    if (unicode == SDL_SCANCODE_LEFT){
         user.moveRight = false;
         user.moveLeft = true;
     }
-    if (sym == SDLK_RIGHT){
+    if (unicode == SDL_SCANCODE_RIGHT){
         user.moveLeft = false;
         user.moveRight = true;;
         
@@ -52,6 +52,10 @@ void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
 
 void game::OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode){
     user.reset();
+}
+
+void game::OnExit(){
+    done = true;
 }
 
 int game::run(){
@@ -64,9 +68,6 @@ int game::run(){
     while (!done){
         while (SDL_PollEvent(&inputs)){
             Gevents::OnEvent(&inputs);
-            if (inputs.type == SDL_QUIT){
-                done = true;
-            }
         }
         
         user.stepLeft();
@@ -80,6 +81,7 @@ int game::run(){
         
         SDL_Delay(10);
     }
+    IMG_Quit();
     SDL_Quit();
     return 0;
 }

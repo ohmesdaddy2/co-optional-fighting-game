@@ -19,21 +19,17 @@
 #include "foot.hpp"
 #include "Gevents.hpp"
 
-class game:public Gevents {
-public:
-    game();
-    game(const game& orig);
-    virtual ~game();
-    
-    bool init();
-    
-    int run();
-    
+#include "bagTest.hpp"
+
+class game:public Gevents{
+
 private:
     
     void OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode);
     
     void OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode);
+    
+    void OnExit();
     
     bool done;
     
@@ -46,6 +42,17 @@ private:
     SDL_Renderer* screen;
     
     player user;
+    
+    bagTest hangingBag;
+public:
+    game();
+    game(const game& orig);
+    virtual ~game();
+    
+    bool init();
+    
+    int run();
+    
 };
 
 #endif	/* GAME_HPP */
