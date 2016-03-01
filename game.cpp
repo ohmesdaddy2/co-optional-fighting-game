@@ -32,6 +32,12 @@ bool game::init(){
     return true;
 }
 
+void game::kickTheBag(int a, int b){
+    if (hangingBag.struck(a, b)){
+        std::cout<<"The bag has been kicked/n";
+    }
+}
+
 void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
     switch(unicode){
         case SDL_SCANCODE_A: user.punch(); break;
@@ -70,11 +76,15 @@ int game::run(){
             Gevents::OnEvent(&inputs);
         }
         
+        kickTheBag(user.puncher[0].getFistX(), user.puncher[0].getFistY() );
+        kickTheBag(user.puncher[1].getFistX(), user.puncher[1].getFistY() );
+        
         user.stepLeft();
         user.stepRight();
         
         SDL_RenderClear(screen);
         
+        hangingBag.render(screen);
         user.render();
         
         SDL_RenderPresent(screen);

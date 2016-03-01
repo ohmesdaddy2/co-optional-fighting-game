@@ -44,12 +44,15 @@ private:
     player user;
     
     bagTest hangingBag;
+    
 public:
     game();
     game(const game& orig);
     virtual ~game();
     
     bool init();
+    
+    void kickTheBag(int a, int b);
     
     int run();
     

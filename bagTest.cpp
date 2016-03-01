@@ -6,6 +6,7 @@
  */
 
 #include "bagTest.hpp"
+#include "Gevents.hpp"
 
 bagTest::bagTest() {
 }
@@ -14,6 +15,22 @@ bagTest::bagTest(const bagTest& orig) {
 }
 
 bagTest::~bagTest() {
+}
+
+int bagTest::getX(){
+    return coords.x;
+}
+
+int bagTest::getY(){
+    return coords.y;
+}
+
+int bagTest::getW(){
+    return coords.w;
+}
+
+int bagTest::getH(){
+    return coords.h;
 }
 
 bool bagTest::struck(int a, int b){
