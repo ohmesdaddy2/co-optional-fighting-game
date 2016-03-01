@@ -9,6 +9,10 @@
 #include "Gevents.hpp"
 
 bagTest::bagTest() {
+    coords.x = 420;
+    coords.y = 240;
+    coords.w = 100;
+    coords.h = 250;
 }
 
 bagTest::bagTest(const bagTest& orig) {
@@ -42,5 +46,5 @@ bool bagTest::struck(int a, int b){
 }
 
 void bagTest::render(SDL_Renderer* screen){
-    boxRGBA(screen, coords.x, coords.y, coords.w, coords.h, 255, 255, 0, 255);
+    boxRGBA(screen, coords.x, coords.y, coords.x + coords.w, coords.y + coords.h, 255, 255, 0, 255);
 }

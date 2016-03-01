@@ -14,6 +14,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
+#include "gTexture.h"
 #include "player.hpp"
 #include "fist.hpp"
 #include "foot.hpp"
@@ -37,7 +38,8 @@ private:
     
     SDL_Window* window;
     
-    SDL_Texture* playerSprite;
+    gTexture playerSprite;
+    gTexture scoreBoard;
     
     SDL_Renderer* screen;
     

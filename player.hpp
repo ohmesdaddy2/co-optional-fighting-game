@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 
+#include "gTexture.h"
 #include "fist.hpp"
 #include "foot.hpp"
 #include "stance.hpp"
@@ -23,7 +24,7 @@ public:
     player(const player& orig);
     virtual ~player();
     
-    bool setup(SDL_Texture* passedImage, SDL_Renderer* passedScreen, int x, int y);
+    bool setup( SDL_Renderer* passedScreen, int x, int y);
     
     void stepRight();
     
@@ -65,7 +66,7 @@ protected:
     
     SDL_Rect frames[8];
     
-    SDL_Texture* image;
+    gTexture image;
     
     SDL_Renderer* screen;
 private:

@@ -24,8 +24,7 @@ bool game::init(){
     
     screen = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_SOFTWARE||SDL_RENDERER_PRESENTVSYNC );
     
-    playerSprite = IMG_LoadTexture(screen,"sprites/playerSprite.png");;
-    user.setup(playerSprite, screen, 480, 240);
+    user.setup(screen, 480, 240);
     
     done = false;
     
@@ -42,6 +41,7 @@ void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
     switch(unicode){
         case SDL_SCANCODE_A: user.punch(); break;
         case SDL_SCANCODE_S: user.kick(); break;
+        case SDL_SCANCODE_ESCAPE: done = true; break;
         default: break;
     }
     
@@ -82,7 +82,8 @@ int game::run(){
         user.stepLeft();
         user.stepRight();
         
-        SDL_RenderClear(screen);
+        //SDL_RenderClear(screen);
+        boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
         
         hangingBag.render(screen);
         user.render();

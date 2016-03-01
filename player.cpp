@@ -16,13 +16,13 @@ player::player(const player& orig) {
 player::~player() {
 }
 
-bool player::setup(SDL_Texture* passedImage, SDL_Renderer* passedScreen, int x, int y){
+bool player::setup( SDL_Renderer* passedScreen, int x, int y){
     kicking = false;
     firstPunch = false;
     moveLeft = false;
     moveRight = false;
     faceLeft = true;
-    image = passedImage;
+    image.loadFromFile(passedScreen, "sprites/playerSprite.png", 0, 0, 0);
     screen = passedScreen;
     moveSpeed = 5;
     
@@ -133,14 +133,14 @@ void player::stepRight(){
 
 void player::render(){
     switch (state){
-        case STANCE_IDLE: SDL_RenderCopy(screen, image, &frames[0], &coords); break;
-        case STANCE_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image, &frames[1], &coords); break;
-        case STANCE_RIGHT_FLAT_PUNCH: SDL_RenderCopy(screen, image, &frames[2], &coords); break;
-        case STANCE_KICK: SDL_RenderCopy(screen, image, &frames[3], &coords); break;
-        case STANCE_OFF_IDLE: SDL_RenderCopy(screen, image, &frames[4], &coords); break;
-        case STANCE_OFF_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image, &frames[5], &coords); break;
-        case STANCE_OFF_RIGHT_FLAT_PUNCH: SDL_RenderCopy(screen, image, &frames[6], &coords); break;
-        case STANCE_OFF_KICK: SDL_RenderCopy(screen, image, &frames[7], &coords); break;
+        case STANCE_IDLE: SDL_RenderCopy(screen, image.mTexture, &frames[0], &coords); break;
+        case STANCE_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[1], &coords); break;
+        case STANCE_RIGHT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[2], &coords); break;
+        case STANCE_KICK: SDL_RenderCopy(screen, image.mTexture, &frames[3], &coords); break;
+        case STANCE_OFF_IDLE: SDL_RenderCopy(screen, image.mTexture, &frames[4], &coords); break;
+        case STANCE_OFF_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[5], &coords); break;
+        case STANCE_OFF_RIGHT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[6], &coords); break;
+        case STANCE_OFF_KICK: SDL_RenderCopy(screen, image.mTexture, &frames[7], &coords); break;
         default: break;
     }
 }
