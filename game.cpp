@@ -9,6 +9,8 @@
 #include "gText.h"
 
 game::game(){
+    fontOne = NULL;
+    fontTwo = NULL;
 }
 
 game::game(const game& orig){
@@ -22,19 +24,25 @@ bool game::init(){
         return false;
     }
     
-    if (TTF_Init() <0){
-        std::cout<<"The text engine didn't load\n";
-    }
-    
     window = SDL_CreateWindow("The Co-optional Rumble", 0, 0, 1280, 720,  SDL_WINDOW_RESIZABLE );
     
     screen = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_SOFTWARE||SDL_RENDERER_PRESENTVSYNC );
+    
+    if (TTF_Init() <0){
+        std::cout<<"The text engine didn't load\n";
+    }
+    /*fontOne = TTF_OpenFont("Confetti-Stream.ttf", 25);
+    
+    if (fontOne == NULL){
+        std::cout<<"The font is not loading "<<TTF_GetError()<<"\n";
+        return false;
+    }*/
     
     user.setup(screen, 480, 240);
     
     done = false;
     
-    scoreBoard.setup(screen, "Confetti-Stream.ttf", 15, "0", 230, 50);
+    //scoreBoard.setup(screen, "fonts/justbeautifulsimplicity.ttf", 15, "0", 230, 50);
     
     return true;
 }

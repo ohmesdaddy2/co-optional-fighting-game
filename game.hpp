@@ -43,6 +43,9 @@ private:
     
     SDL_Event inputs;
     
+    TTF_Font* fontOne;
+    TTF_Font* fontTwo;
+    
     SDL_Window* window;
     
     gTexture playerSprite;
