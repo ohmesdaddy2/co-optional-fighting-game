@@ -9,8 +9,7 @@
 #include "gText.h"
 
 game::game(){
-    fontOne = NULL;
-    fontTwo = NULL;
+    player1Combo = 0;
 }
 
 game::game(const game& orig){
@@ -31,24 +30,21 @@ bool game::init(){
     if (TTF_Init() <0){
         std::cout<<"The text engine didn't load\n";
     }
-    /*fontOne = TTF_OpenFont("Confetti-Stream.ttf", 25);
-    
-    if (fontOne == NULL){
-        std::cout<<"The font is not loading "<<TTF_GetError()<<"\n";
-        return false;
-    }*/
     
     user.setup(screen, 480, 240);
     
     done = false;
     
-    //scoreBoard.setup(screen, "fonts/justbeautifulsimplicity.ttf", 15, "0", 230, 50);
+    scoreBoard.setup(screen, "fonts/justbeautifulsimplicity.ttf", 50, "rc", 230, 50);
+    scoreBoard.setMainColor(255,255,255);
+    scoreBoard.setOutlineColor(128, 128, 255);
     
     return true;
 }
 
 void game::kickTheBag(int a, int b){
     if (hangingBag.struck(a, b) == true){
+        player1Combo++;
         std::cout<<"The bag has been kicked\n";
     }
     else { std::cout<<"The bag has been missed\n";
@@ -87,6 +83,14 @@ void game::operatePlayerOne(){
     
 }
 
+void game::createTheScore(){
+    std::stringstream tempString;
+    tempString << player1Combo;
+    
+    scoreBoard.update(tempString.str());
+    
+}
+
 int game::run(){
     if (init() < 1){
         std::cout<<"Initiliazing failed\n";
@@ -99,6 +103,7 @@ int game::run(){
             Gevents::OnEvent(&inputs);
         }
         
+        createTheScore();
         user.stepLeft();
         user.stepRight();
         
@@ -107,10 +112,10 @@ int game::run(){
         
         hangingBag.render(screen);
         user.render();
-        
+        scoreBoard.render();
         SDL_RenderPresent(screen);
         
-        SDL_Delay(10);
+        SDL_Delay(1000/60);
     }
     IMG_Quit();
     SDL_Quit();

@@ -9,6 +9,8 @@
 #define	GAME_HPP
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -33,7 +35,13 @@ private:
     
     void OnExit();
     
+    void createTheScore();
+    
     void operatePlayerOne();
+    
+    void operatePlayerTwo();
+    
+    void cleanUp();
     
     bool done;
     
@@ -42,9 +50,6 @@ private:
     int player2Combo;
     
     SDL_Event inputs;
-    
-    TTF_Font* fontOne;
-    TTF_Font* fontTwo;
     
     SDL_Window* window;
     

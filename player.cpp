@@ -8,12 +8,17 @@
 #include "player.hpp"
 
 player::player() {
+    
 }
 
 player::player(const player& orig) {
 }
 
 player::~player() {
+}
+
+void player::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
+    
 }
 
 bool player::setup( SDL_Renderer* passedScreen, int x, int y){

@@ -14,11 +14,12 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
 
 #include "gTexture.h"
+#include "Gevents.hpp"
 #include "fist.hpp"
 #include "foot.hpp"
 #include "stance.hpp"
 
-class player{
+class player: public Gevents{
 public:
     player();
     player(const player& orig);
@@ -35,6 +36,10 @@ public:
     void kick();
     
     void reset();
+    
+    void operate();
+    
+    void OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode);
     
     void render();
     
@@ -63,6 +68,8 @@ protected:
     short damageType;
     
     short moveSpeed;
+    
+    short keys[7];
     
     SDL_Rect frames[8];
     

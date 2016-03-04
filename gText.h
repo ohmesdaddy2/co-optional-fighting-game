@@ -20,11 +20,15 @@ public:
     gText(const gText& orig);
     virtual ~gText();
     
+    void cleanUp();
+    
     void setMainColor(Uint8 red, Uint8 green, Uint8 blue);
     
     void setOutlineColor(Uint8 red, Uint8 green, Uint8 blue);
     
     bool setup(SDL_Renderer* a, std::string fontPath, int fontSize, std::string passedText, int passedX, int passedY);
+    
+    void update(std::string updatedText);
     
     void render();
     

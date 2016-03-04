@@ -8,7 +8,7 @@
 #include "gText.h"
 
 gText::gText() {
-    text = "";
+    text = "0";
     mainFont = NULL;
     outlineFont = NULL;
     mainTexture = NULL;
@@ -16,8 +16,8 @@ gText::gText() {
     mainScreen = NULL;
     coords.x = -500;
     coords.y = -500;
-    coords.w = 0;
-    coords.h = 0;
+    coords.w = 40;
+    coords.h = 80;
     
     mainColor.r = 128;
     mainColor.g = 128;
@@ -32,6 +32,36 @@ gText::gText(const gText& orig) {
 }
 
 gText::~gText() {
+}
+
+void gText::update(std::string updatedText){
+    text = updatedText;
+    SDL_Surface* tempSurface = TTF_RenderText_Solid(mainFont, text.c_str(), mainColor);
+    SDL_Surface* tempOutlineSurface = TTF_RenderText_Solid(outlineFont, text.c_str(), outlineColor);
+    
+    mainTexture = SDL_CreateTextureFromSurface(mainScreen, tempSurface);
+    if (mainTexture == NULL){
+        std::cout<<"Unable to create the texture "+text+" \n";
+        //return false;
+    }
+    
+    outlineTexture = SDL_CreateTextureFromSurface(mainScreen, tempOutlineSurface);
+    if (outlineTexture == NULL){
+        std::cout<<"Unable to create the outline "+text+" \n";
+        //return false;
+    }
+    coords.w = tempSurface->w;
+    coords.h = tempSurface->h;
+    
+}
+
+void gText::cleanUp(){
+    TTF_CloseFont(mainFont);
+    TTF_CloseFont(outlineFont);
+    SDL_DestroyTexture(mainTexture);
+    SDL_DestroyTexture(outlineTexture);
+    text = "";
+    mainScreen = NULL;
 }
 
 void gText::setMainColor(Uint8 red, Uint8 green, Uint8 blue){
@@ -64,7 +94,7 @@ bool gText::setup(SDL_Renderer* a, std::string fontPath, int fontSize, std::stri
         std::cout<<"The outline font didn't load\n";
     }
     
-    TTF_SetFontOutline(outlineFont, 5);
+    TTF_SetFontOutline(outlineFont, 1);
     
     SDL_Surface* tempSurface = TTF_RenderText_Solid(mainFont, text.c_str(), mainColor);
     SDL_Surface* tempOutlineSurface = TTF_RenderText_Solid(outlineFont, text.c_str(), outlineColor);
@@ -88,6 +118,7 @@ bool gText::setup(SDL_Renderer* a, std::string fontPath, int fontSize, std::stri
 }
 
 void gText::render(){
+    
     SDL_RenderCopy(mainScreen, mainTexture, NULL, &coords);
     SDL_RenderCopy(mainScreen, outlineTexture, NULL, &coords);
 }
