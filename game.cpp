@@ -6,6 +6,7 @@
  */
 
 #include "game.hpp"
+#include "gText.h"
 
 game::game(){
 }
@@ -20,6 +21,11 @@ bool game::init(){
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_EVENTS)){
         return false;
     }
+    
+    if (TTF_Init() <0){
+        std::cout<<"The text engine didn't load\n";
+    }
+    
     window = SDL_CreateWindow("The Co-optional Rumble", 0, 0, 1280, 720,  SDL_WINDOW_RESIZABLE );
     
     screen = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_SOFTWARE||SDL_RENDERER_PRESENTVSYNC );
@@ -28,19 +34,24 @@ bool game::init(){
     
     done = false;
     
+    scoreBoard.setup(screen, "Confetti-Stream.ttf", 15, "0", 230, 50);
+    
     return true;
 }
 
 void game::kickTheBag(int a, int b){
-    if (hangingBag.struck(a, b)){
-        std::cout<<"The bag has been kicked/n";
+    if (hangingBag.struck(a, b) == true){
+        std::cout<<"The bag has been kicked\n";
+    }
+    else { std::cout<<"The bag has been missed\n";
+        
     }
 }
 
 void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
     switch(unicode){
-        case SDL_SCANCODE_A: user.punch(); break;
-        case SDL_SCANCODE_S: user.kick(); break;
+        case SDL_SCANCODE_A: user.punch(); kickTheBag(user.puncher.getFistX(), user.puncher.getFistY()); break;
+        case SDL_SCANCODE_S: user.kick(); kickTheBag(user.shoe.getX(), user.shoe.getY()); break;
         case SDL_SCANCODE_ESCAPE: done = true; break;
         default: break;
     }
@@ -64,6 +75,10 @@ void game::OnExit(){
     done = true;
 }
 
+void game::operatePlayerOne(){
+    
+}
+
 int game::run(){
     if (init() < 1){
         std::cout<<"Initiliazing failed\n";
@@ -75,9 +90,6 @@ int game::run(){
         while (SDL_PollEvent(&inputs)){
             Gevents::OnEvent(&inputs);
         }
-        
-        kickTheBag(user.puncher[0].getFistX(), user.puncher[0].getFistY() );
-        kickTheBag(user.puncher[1].getFistX(), user.puncher[1].getFistY() );
         
         user.stepLeft();
         user.stepRight();

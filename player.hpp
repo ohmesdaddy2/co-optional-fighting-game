@@ -42,7 +42,9 @@ public:
     
     bool moveRight;
     
-    fist puncher[2];
+    fist puncher;
+    
+    foot shoe;
     
 protected:
     
@@ -53,8 +55,6 @@ protected:
     bool kicking;
     
     short state;
-    
-    foot shoe;
     
     SDL_Rect coords;
     

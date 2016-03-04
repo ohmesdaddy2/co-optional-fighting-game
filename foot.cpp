@@ -9,6 +9,9 @@
 
 foot::foot() {
     kicking = false;
+    coords.w = 59;
+    coords.h = 48;
+    
 }
 
 foot::foot(const foot& orig) {
@@ -17,11 +20,15 @@ foot::foot(const foot& orig) {
 foot::~foot() {
 }
 
-void foot::move(int a, int b){
+void foot::update(int a, int b){
     coords.x = a;
-    coords.y + b + 25;
-    if (kicking){
-        coords.x = a - 40;
-        coords.y = b + 15;
-    }
+    coords.y = b;
+}
+
+int foot::getX(){
+    return coords.x;
+}
+
+int foot::getY(){
+    return coords.y;
 }

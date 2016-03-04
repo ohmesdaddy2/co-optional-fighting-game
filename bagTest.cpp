@@ -38,8 +38,11 @@ int bagTest::getH(){
 }
 
 bool bagTest::struck(int a, int b){
-    if (a < coords.x + coords.w && b > coords.y && b < coords.y + coords.h){
-        std::cout<<"The bag has been struck\n";
+    int tempW = coords.x + coords.w;
+    int tempH = coords.y + coords.h;
+    
+    if (a > coords.x && a < tempW && b > coords.y && b < tempH){;
+        //std::cout<<"The bag has been struck\n";
         return true;
     }
     return false;

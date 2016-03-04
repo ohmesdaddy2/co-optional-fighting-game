@@ -15,6 +15,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "gTexture.h"
+#include "gText.h"
 #include "player.hpp"
 #include "fist.hpp"
 #include "foot.hpp"
@@ -32,14 +33,20 @@ private:
     
     void OnExit();
     
+    void operatePlayerOne();
+    
     bool done;
+    
+    int player1Combo;
+    
+    int player2Combo;
     
     SDL_Event inputs;
     
     SDL_Window* window;
     
     gTexture playerSprite;
-    gTexture scoreBoard;
+    gText scoreBoard;
     
     SDL_Renderer* screen;
     

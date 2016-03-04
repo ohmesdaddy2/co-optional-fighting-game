@@ -77,19 +77,23 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
 void player::punch(){
     if (!firstPunch){
         if (faceLeft){
-        state = STANCE_LEFT_FLAT_PUNCH;
+            state = STANCE_LEFT_FLAT_PUNCH;
+            puncher.update(coords.x + 7, coords.y + 134);
         }
         else if (!faceLeft){
             state = STANCE_OFF_LEFT_FLAT_PUNCH;
+            puncher.update(coords.x + 28, coords.y + 134);
         }
         firstPunch =true;
     }
     else {
         if (faceLeft){
-        state = STANCE_RIGHT_FLAT_PUNCH;
+            state = STANCE_RIGHT_FLAT_PUNCH;
+            puncher.update(coords.x + 7, coords.y + 134);
         }
         else if (!faceLeft){
             state = STANCE_OFF_RIGHT_FLAT_PUNCH;
+            puncher.update(coords.x + 28, coords.y + 134);
         }
         firstPunch = false;
     }
@@ -97,7 +101,8 @@ void player::punch(){
 
 void player::kick(){
     if (faceLeft){
-    state = STANCE_KICK;
+        state = STANCE_KICK;
+        shoe.update(coords.x, coords.y + 185);
     }
     else if (!faceLeft){
         state = STANCE_OFF_KICK;
@@ -107,6 +112,8 @@ void player::kick(){
 void player::reset(){
     if (faceLeft){
     state = STANCE_IDLE;
+    puncher.update(coords.x + 92, coords.y + 134);
+    shoe.update(coords.x + 122, coords.y + 354);
     }
     else {
         state = STANCE_OFF_IDLE;

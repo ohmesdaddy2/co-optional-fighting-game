@@ -19,7 +19,11 @@ public:
     foot(const foot& orig);
     virtual ~foot();
     
-    void move(int a, int b);
+    int getX();
+    
+    int getY();
+    
+    void update(int a, int b);
     
     bool kicking;
     

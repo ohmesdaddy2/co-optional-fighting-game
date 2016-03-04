@@ -8,6 +8,8 @@
 #include "fist.hpp"
 
 fist::fist() {
+    coords.w = 28;
+    coords.h = 30;
 }
 
 fist::fist(const fist& orig) {
