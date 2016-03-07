@@ -23,7 +23,7 @@ bool game::init(){
         return false;
     }
     
-    window = SDL_CreateWindow("The Co-optional Rumble", 0, 0, 1280, 720,  SDL_WINDOW_RESIZABLE );
+    window = SDL_CreateWindow("The Co-optional Rumble", 50, 50, 1280, 720,  SDL_WINDOW_RESIZABLE );
     
     screen = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_SOFTWARE||SDL_RENDERER_PRESENTVSYNC );
     
@@ -35,9 +35,9 @@ bool game::init(){
     
     done = false;
     
-    scoreBoard.setup(screen, "fonts/justbeautifulsimplicity.ttf", 50, "rc", 230, 50);
-    scoreBoard.setMainColor(255,255,255);
-    scoreBoard.setOutlineColor(128, 128, 255);
+    scoreBoard.setup(screen, "fonts/FreeMonoBold.ttf", 50, "rc", 230, 50);
+    scoreBoard.setMainColor(255,255,0);
+    scoreBoard.setOutlineColor(0, 255, 255);
     
     return true;
 }
@@ -92,7 +92,7 @@ void game::createTheScore(){
 }
 
 int game::run(){
-    if (init() < 1){
+    if (init()  == false){
         std::cout<<"Initiliazing failed\n";
         SDL_Quit();
         return 1;

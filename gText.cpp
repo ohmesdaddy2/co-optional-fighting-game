@@ -88,13 +88,13 @@ bool gText::setup(SDL_Renderer* a, std::string fontPath, int fontSize, std::stri
         std::cout<<"The font didn't load\n";
     }
     
-    outlineFont = TTF_OpenFont(fontPath.c_str(), fontSize);
+    outlineFont = TTF_OpenFont(fontPath.c_str(), fontSize + 5);
     
     if (outlineFont == NULL){
         std::cout<<"The outline font didn't load\n";
     }
     
-    TTF_SetFontOutline(outlineFont, 1);
+    //TTF_SetFontOutline(outlineFont, 2);
     
     SDL_Surface* tempSurface = TTF_RenderText_Solid(mainFont, text.c_str(), mainColor);
     SDL_Surface* tempOutlineSurface = TTF_RenderText_Solid(outlineFont, text.c_str(), outlineColor);
@@ -118,7 +118,12 @@ bool gText::setup(SDL_Renderer* a, std::string fontPath, int fontSize, std::stri
 }
 
 void gText::render(){
-    
-    SDL_RenderCopy(mainScreen, mainTexture, NULL, &coords);
-    SDL_RenderCopy(mainScreen, outlineTexture, NULL, &coords);
+	SDL_Rect tempCoords;
+	tempCoords.x = coords.x + 3;
+	tempCoords.y = coords.y + 3;
+	tempCoords.w = coords.w - 5;
+	tempCoords.h = coords.h - 5;
+
+	SDL_RenderCopy(mainScreen, outlineTexture, NULL, &coords);
+    SDL_RenderCopy(mainScreen, mainTexture, NULL, &tempCoords);
 }

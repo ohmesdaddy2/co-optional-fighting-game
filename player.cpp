@@ -77,6 +77,7 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
     frames[7].h = 356;
     
     state = STANCE_IDLE;
+	return true;
 }
 
 void player::punch(){

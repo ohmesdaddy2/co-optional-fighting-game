@@ -140,6 +140,7 @@ void Gevents::OnMouseWheel(bool Up, bool Down) {
  
 int Gevents::OnLButtonDown(int mX, int mY) {
     //Pure virtual, do nothing
+	return 0;
 }
  
 void Gevents::OnLButtonUp(int mX, int mY) {
