@@ -34,24 +34,29 @@ gText::gText(const gText& orig) {
 gText::~gText() {
 }
 
-void gText::update(std::string updatedText){
+void gText::update(std::string updatedText = ""){
     text = updatedText;
-    SDL_Surface* tempSurface = TTF_RenderText_Solid(mainFont, text.c_str(), mainColor);
-    SDL_Surface* tempOutlineSurface = TTF_RenderText_Solid(outlineFont, text.c_str(), outlineColor);
-    
-    mainTexture = SDL_CreateTextureFromSurface(mainScreen, tempSurface);
-    if (mainTexture == NULL){
-        std::cout<<"Unable to create the texture "+text+" \n";
-        //return false;
-    }
-    
-    outlineTexture = SDL_CreateTextureFromSurface(mainScreen, tempOutlineSurface);
-    if (outlineTexture == NULL){
-        std::cout<<"Unable to create the outline "+text+" \n";
-        //return false;
-    }
-    coords.w = tempSurface->w;
-    coords.h = tempSurface->h;
+	if (text != "") {
+		SDL_Surface* tempSurface = TTF_RenderText_Solid(mainFont, text.c_str(), mainColor);
+		SDL_Surface* tempOutlineSurface = TTF_RenderText_Solid(outlineFont, text.c_str(), outlineColor);
+
+		mainTexture = SDL_CreateTextureFromSurface(mainScreen, tempSurface);
+		if (mainTexture == NULL) {
+			std::cout << "Unable to create the texture " + text + " \n";
+			//return false;
+		}
+
+		outlineTexture = SDL_CreateTextureFromSurface(mainScreen, tempOutlineSurface);
+		if (outlineTexture == NULL) {
+			std::cout << "Unable to create the outline " + text + " \n";
+			//return false;
+		}
+		coords.w = tempSurface->w;
+		coords.h = tempSurface->h;
+
+		SDL_FreeSurface(tempSurface);
+		SDL_FreeSurface(tempOutlineSurface);
+	}
     
 }
 

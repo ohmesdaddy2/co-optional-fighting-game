@@ -29,7 +29,13 @@ public:
     
     void stepRight();
     
-    void stepLeft(); 
+    void stepLeft();
+
+	void goLeft();
+
+	void goRight();
+
+	void stop();
     
     void punch();
     
@@ -71,7 +77,7 @@ protected:
     
     short keys[7];
     
-    SDL_Rect frames[8];
+    SDL_Rect frames[10];
     
     gTexture image;
     

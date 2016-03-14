@@ -49,6 +49,8 @@ private:
     
     int player2Combo;
     
+	short playerResetTime;
+
     SDL_Event inputs;
     
     SDL_Window* window;
@@ -58,7 +60,7 @@ private:
     
     SDL_Renderer* screen;
     
-    player user;
+    player user[2];
     
     bagTest hangingBag;
     
@@ -69,7 +71,7 @@ public:
     
     bool init();
     
-    void kickTheBag(int a, int b);
+    bool kickTheBag(int a, int b);
     
     int run();
     
