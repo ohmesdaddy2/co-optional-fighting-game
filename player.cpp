@@ -17,8 +17,21 @@ player::player(const player& orig) {
 player::~player() {
 }
 
-void player::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
-    
+int player::getX(){
+    return coords.x;
+}
+
+int player::getY(){
+    return coords.y;
+}
+
+void player::setDirection(int a){
+    if (coords.x + 141 > a){
+        faceLeft = false;
+    }
+    else if (coords.x + 141 < a){
+        faceLeft = true;
+    }
 }
 
 bool player::setup( SDL_Renderer* passedScreen, int x, int y){
@@ -76,15 +89,15 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
     frames[7].w = 282;
     frames[7].h = 356;
 
-	frames[8].x = 1445 - 282;
-	frames[8].y = 0;
-	frames[8].w = 282;
-	frames[8].h = 356;
+    frames[8].x = 1445 - 282;
+    frames[8].y = 0;
+    frames[8].w = 282;
+    frames[8].h = 356;
 
-	frames[9].x = 1445 - 282;
-	frames[9].y = 357;
-	frames[9].w = 282;
-	frames[9].h = 356;
+    frames[9].x = 1445 - 282;
+    frames[9].y = 357;
+    frames[9].w = 282;
+    frames[9].h = 356;
     
     state = STANCE_IDLE;
 	return true;
@@ -116,13 +129,15 @@ void player::punch(){
 }
 
 void player::goLeft() {
-	moveRight = false;
-	moveLeft = true;
+    if (moveRight == false){
+        moveLeft = true;
+    }
 }
 
 void player::goRight() {
-	moveRight = true;
-	moveLeft = false;
+    if (moveLeft == false){
+        moveRight = true;
+    }
 }
 
 void player::kick(){
@@ -137,14 +152,14 @@ void player::kick(){
 
 void player::reset(){
     if (faceLeft){
-		state = STANCE_IDLE;
-		puncher.update(coords.x + 92, coords.y + 134);
-		shoe.update(coords.x + 122, coords.y + 354);
+        state = STANCE_IDLE;
+        puncher.update(coords.x + 92, coords.y + 134);
+        shoe.update(coords.x + 122, coords.y + 354);
     }
     else {
         state = STANCE_OFF_IDLE;
-		puncher.update(coords.x + 162, coords.y + 134);
-		shoe.update(coords.x + 101, coords.y + 354);
+        puncher.update(coords.x + 162, coords.y + 134);
+        shoe.update(coords.x + 101, coords.y + 354);
     }
 }
 
@@ -156,21 +171,19 @@ void player::stop() {
 void player::stepLeft(){
     if (moveLeft){
         coords.x -= moveSpeed;
-        faceLeft = true;
         state = STANCE_IDLE;
     }
 }
 
 void player::stepRight() {
-	if (moveRight) {
-		coords.x += moveSpeed;
-		faceLeft = false;
-		state = STANCE_OFF_IDLE;
-	}
+    if (moveRight) {
+        coords.x += moveSpeed;
+        state = STANCE_OFF_IDLE;
+    }
 }
 
 void player::operate() {
-
+    
 }
 
 void player::render(){
@@ -179,12 +192,12 @@ void player::render(){
         case STANCE_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[1], &coords); break;
         case STANCE_RIGHT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[2], &coords); break;
         case STANCE_KICK: SDL_RenderCopy(screen, image.mTexture, &frames[3], &coords); break;
-		case STANCE_BLOCK: SDL_RenderCopy(screen, image.mTexture, &frames[8], &coords); break;
+	case STANCE_BLOCK: SDL_RenderCopy(screen, image.mTexture, &frames[8], &coords); break;
         case STANCE_OFF_IDLE: SDL_RenderCopy(screen, image.mTexture, &frames[4], &coords); break;
         case STANCE_OFF_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[5], &coords); break;
         case STANCE_OFF_RIGHT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[6], &coords); break;
         case STANCE_OFF_KICK: SDL_RenderCopy(screen, image.mTexture, &frames[7], &coords); break;
-		case STANCE_OFF_BLOCK: SDL_RenderCopy(screen, image.mTexture, &frames[9], &coords);
+	case STANCE_OFF_BLOCK: SDL_RenderCopy(screen, image.mTexture, &frames[9], &coords);
         default: break;
     }
 }

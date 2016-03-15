@@ -27,15 +27,21 @@ public:
     
     bool setup( SDL_Renderer* passedScreen, int x, int y);
     
+    int getX();
+    
+    int getY();
+    
+    void setDirection(int a);
+    
     void stepRight();
     
     void stepLeft();
 
-	void goLeft();
+    void goLeft();
 
-	void goRight();
+    void goRight();
 
-	void stop();
+    void stop();
     
     void punch();
     
@@ -44,8 +50,6 @@ public:
     void reset();
     
     void operate();
-    
-    void OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode);
     
     void render();
     

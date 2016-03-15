@@ -10,8 +10,8 @@
 
 game::game(){
     player1Combo = 0;
-	player2Combo = 0;
-	playerResetTime = 0;
+    player2Combo = 0;
+    playerResetTime = 0;
 }
 
 game::game(const game& orig){
@@ -56,10 +56,10 @@ bool game::kickTheBag(int a, int b){
 
 void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
     switch(unicode){
-		case SDL_SCANCODE_Q: user[1].punch(); createTheScore(); break;
-		case SDL_SCANCODE_E: user[1].kick(); createTheScore(); break;
-		case SDL_SCANCODE_KP_4: user[0].punch(); createTheScore(); break;
-		case SDL_SCANCODE_KP_5: user[0].kick(); createTheScore(); break;
+        case SDL_SCANCODE_Q: user[1].punch(); createTheScore(); break;
+        case SDL_SCANCODE_E: user[1].kick(); createTheScore(); break;
+        case SDL_SCANCODE_KP_4: user[0].punch(); createTheScore(); break;
+        case SDL_SCANCODE_KP_5: user[0].kick(); createTheScore(); break;
         case SDL_SCANCODE_ESCAPE: done = true; break;
         default: break;
     }
@@ -72,14 +72,14 @@ void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
         user[1].moveLeft = false;
         user[1].moveRight = true;
     }
-	if (unicode == SDL_SCANCODE_LEFT) {
-		user[0].moveRight = false;
-		user[0].moveLeft = true;
-	}
-	if (unicode == SDL_SCANCODE_RIGHT) {
-		user[0].moveRight = true;
-		user[0].moveLeft = false;
-	}
+    if (unicode == SDL_SCANCODE_LEFT) {
+        user[0].moveRight = false;
+        user[0].moveLeft = true;
+    }
+    if (unicode == SDL_SCANCODE_RIGHT) {
+        user[0].moveRight = true;
+        user[0].moveLeft = false;
+    }
 }
 
 void game::OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode){
@@ -103,19 +103,19 @@ void game::OnExit(){
 void game::createTheScore(){
 	std::stringstream tempString;
 	if (kickTheBag(user[0].puncher.getFistX(), user[0].puncher.getFistY() ) == true || kickTheBag(user[0].shoe.getX(), user[0].shoe.getY() ) == true ){
-		player1Combo++;
-		player2Combo = 0;
+            player1Combo++;
+            player2Combo = 0;
 	}
 	else if (kickTheBag(user[1].puncher.getFistX(), user[1].puncher.getFistY() ) || kickTheBag(user[1].shoe.getX(), user[1].shoe.getY() ) == true){
-		player1Combo = 0;
-		player2Combo++;
+            player1Combo = 0;
+            player2Combo++;
 	}
 	
 	if (player1Combo > 0) {
-		tempString << player1Combo;
+            tempString << player1Combo;
 	}
 	else if (player2Combo > 0) {
-		tempString << player2Combo;
+            tempString << player2Combo;
 	}
     scoreBoard.update(tempString.str());
     
@@ -137,18 +137,18 @@ int game::run(){
         user[0].stepLeft();
         user[0].stepRight();
 
-		user[1].stepLeft();
-		user[1].stepRight();
+        user[1].stepLeft();
+        user[1].stepRight();
 
         //SDL_RenderClear(screen);
         boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
         
         hangingBag.render(screen);
         user[0].render();
-		user[1].render();
-		if (player1Combo > 0 || player2Combo > 0){
-			scoreBoard.render();
-		}
+        user[1].render();
+        if (player1Combo > 0 || player2Combo > 0){
+                scoreBoard.render();
+        }
         SDL_RenderPresent(screen);
         
         SDL_Delay(1000/60);
