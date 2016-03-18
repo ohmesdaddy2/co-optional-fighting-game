@@ -169,21 +169,20 @@ void player::stop() {
 }
 
 void player::stepLeft(){
-    if (moveLeft){
-        coords.x -= moveSpeed;
-        state = STANCE_IDLE;
-    }
+    coords.x -= moveSpeed;
 }
 
 void player::stepRight() {
-    if (moveRight) {
-        coords.x += moveSpeed;
-        state = STANCE_OFF_IDLE;
-    }
+    coords.x += moveSpeed;
 }
 
-void player::operate() {
-    
+void player::operate(int dir, int hitA, int hitB) {
+    if (moveLeft){
+        stepLeft();
+    }
+    else if (moveRight){
+        stepRight();
+    }
 }
 
 void player::render(){

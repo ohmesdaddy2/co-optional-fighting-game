@@ -56,44 +56,64 @@ bool game::kickTheBag(int a, int b){
 
 void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
     switch(unicode){
-        case SDL_SCANCODE_Q: user[1].punch(); createTheScore(); break;
-        case SDL_SCANCODE_E: user[1].kick(); createTheScore(); break;
-        case SDL_SCANCODE_KP_4: user[0].punch(); createTheScore(); break;
-        case SDL_SCANCODE_KP_5: user[0].kick(); createTheScore(); break;
         case SDL_SCANCODE_ESCAPE: done = true; break;
         default: break;
     }
-    
+    if (unicode == SDL_SCANCODE_KP_5){
+        user[0].kick();
+        createTheScore();
+    }
+    if (unicode == SDL_SCANCODE_KP_4){
+        user[0].punch();
+        createTheScore();
+    }
+    if (unicode == SDL_SCANCODE_Q){
+        user[1].punch();
+        createTheScore();
+    }
+    if (unicode == SDL_SCANCODE_E ){
+        user[1].kick();
+        createTheScore();
+    }
     if (unicode == SDL_SCANCODE_A){
-        user[1].moveRight = false;
-        user[1].moveLeft = true;
+        user[1].goLeft();
     }
     if (unicode == SDL_SCANCODE_D){
-        user[1].moveLeft = false;
-        user[1].moveRight = true;
+        user[1].goRight();
     }
     if (unicode == SDL_SCANCODE_LEFT) {
-        user[0].moveRight = false;
-        user[0].moveLeft = true;
+        user[0].goLeft();
     }
     if (unicode == SDL_SCANCODE_RIGHT) {
-        user[0].moveRight = true;
-        user[0].moveLeft = false;
+        user[0].goRight();
     }
 }
 
 void game::OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode){
-	switch (unicode) {
-	case SDL_SCANCODE_LEFT: user[0].stop(); break;
-	case SDL_SCANCODE_RIGHT: user[0].stop(); break;
-	case SDL_SCANCODE_A: user[1].stop(); break;
-	case SDL_SCANCODE_D: user[1].stop(); break;
-	case SDL_SCANCODE_Q: user[1].reset(); break;
-	case SDL_SCANCODE_E: user[1].reset(); break;
-	case SDL_SCANCODE_KP_4: user[0].reset(); break;
-	case SDL_SCANCODE_KP_5: user[0].reset(); break;
-	default: break;
-	}
+    if (unicode == SDL_SCANCODE_KP_5){
+        user[0].reset();
+    }
+    if (unicode == SDL_SCANCODE_KP_4){
+        user[0].reset();
+    }
+    if (unicode == SDL_SCANCODE_Q){
+        user[1].reset();
+    }
+    if (unicode == SDL_SCANCODE_E ){
+        user[1].reset();
+    }
+    if (unicode == SDL_SCANCODE_A){
+        user[1].stop();
+    }
+    if (unicode == SDL_SCANCODE_D){
+        user[1].stop();
+    }
+    if (unicode == SDL_SCANCODE_LEFT) {
+        user[0].stop();
+    }
+    if (unicode == SDL_SCANCODE_RIGHT) {
+        user[0].stop();
+    }
 }
 
 void game::OnExit(){
@@ -133,13 +153,8 @@ int game::run(){
         while (SDL_PollEvent(&inputs)){
             Gevents::OnEvent(&inputs);
         }
-        
-        user[0].stepLeft();
-        user[0].stepRight();
-
-        user[1].stepLeft();
-        user[1].stepRight();
-
+        user[0].operate(user[1].getX()+141, user[1].getX(), user[1].getY() );
+        user[1].operate(user[0].getX()+141, user[0].getX(), user[0].getY() );
         //SDL_RenderClear(screen);
         boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
         

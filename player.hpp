@@ -49,7 +49,7 @@ public:
     
     void reset();
     
-    void operate();
+    void operate(int dir, int hitA, int hitB);
     
     void render();
     
