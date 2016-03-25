@@ -8,6 +8,8 @@
 #ifndef GAME_HPP
 #define	GAME_HPP
 
+#define DEBUG_RENDER
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -29,17 +31,15 @@ class game:public Gevents{
 
 private:
     
-    void OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode);
-    
-    void OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode);
-    
     void OnExit();
+
+	void OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode);
     
-    void createTheScore();
-    
-    void operatePlayerOne();
-    
-    void operatePlayerTwo();
+    //void createTheScore();
+
+	void controlKeys();
+
+	void playerStrike();
     
     void cleanUp();
     
@@ -62,7 +62,7 @@ private:
     
     player user[2];
     
-    bagTest hangingBag;
+    //bagTest hangingBag;
     
 public:
     game();
@@ -71,7 +71,7 @@ public:
     
     bool init();
     
-    bool kickTheBag(int a, int b);
+    //bool kickTheBag(int a, int b);
     
     int run();
     

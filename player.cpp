@@ -25,12 +25,52 @@ int player::getY(){
     return coords.y;
 }
 
+bool player::setKeys(int a) {
+	playerNumber = a;
+	if (playerNumber == 1) {
+		keys[0] = SDL_SCANCODE_LEFT;
+		keys[1] = SDL_SCANCODE_RIGHT;
+		keys[2] = SDL_SCANCODE_DOWN;
+		keys[3] = SDL_SCANCODE_KP_4;
+		keys[4] = SDL_SCANCODE_KP_5;
+		keys[5] = SDL_SCANCODE_KP_PLUS;
+		keys[6] = SDL_SCANCODE_KP_0;
+	}
+	else if (playerNumber == 2) {
+		keys[0] = SDL_SCANCODE_A;
+		keys[1] = SDL_SCANCODE_D;
+		keys[2] = SDL_SCANCODE_S;
+		keys[3] = SDL_SCANCODE_COMMA;
+		keys[4] = SDL_SCANCODE_PERIOD;
+		keys[5] = SDL_SCANCODE_SLASH;
+		keys[6] = SDL_SCANCODE_W;
+	}
+	return false;
+}
+
+bool player::getHit(int a, int b) {
+	
+	if ( a > hitCoords.x && a < hitCoords.w && faceLeft && !blocking) {
+		std::cout << playerNumber<< "Hit from the left\n";
+		//return true;
+	}
+	if (a < hitCoords.w && a > hitCoords.x && !faceLeft && !blocking) {
+		std::cout << playerNumber<< " Hit from the right\n";
+		//return true;
+	}
+	return false;
+}
+
 void player::setDirection(int a){
-    if (coords.x + 141 > a){
-        faceLeft = false;
-    }
-    else if (coords.x + 141 < a){
+    if (coords.x + 71 > a && !faceLeft){
         faceLeft = true;
+		hitCoords.x = coords.x + 154;
+		hitCoords.w = hitCoords.x + 101;
+    }
+    else if (coords.x + coords.w - 71 < a && faceLeft){
+        faceLeft = false;
+		hitCoords.x = coords.x + 28;
+		hitCoords.w = hitCoords.x + 101;
     }
 }
 
@@ -43,12 +83,19 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
     image.loadFromFile(passedScreen, "sprites/playerSprite.png", 0, 0, 0);
     screen = passedScreen;
     moveSpeed = 5;
+	actionResetTime = 2;
+	playerNumber = 0;
     
     coords.x = x;
     coords.y = y;
     coords.w = 282;
     coords.h = 356;
-    
+	
+	hitCoords.x = coords.x + 154;
+	hitCoords.y = coords.y;
+	hitCoords.w = hitCoords.x + 101;
+	hitCoords.h = coords.h;
+
     frames[0].x = 0;
     frames[0].y = 0;
     frames[0].w = 282;
@@ -103,6 +150,28 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
 	return true;
 }
 
+void player::block() {
+	blocking = true;
+	if (faceLeft) {
+		state = STANCE_BLOCK;
+	}
+	else if (!faceLeft) {
+		state = STANCE_OFF_BLOCK;
+	}
+}
+
+void player::unBlock() {
+	if (blocking) {
+		blocking = false;
+		if (faceLeft) {
+			state = STANCE_IDLE;
+		}
+		else if (!faceLeft) {
+			state = STANCE_OFF_IDLE;
+		}
+	}
+}
+
 void player::punch(){
     if (!firstPunch){
         if (faceLeft){
@@ -111,7 +180,7 @@ void player::punch(){
         }
         else if (!faceLeft){
             state = STANCE_OFF_LEFT_FLAT_PUNCH;
-            puncher.update(coords.x + 28, coords.y + 134);
+			puncher.update(coords.x + 251, coords.y + 134);
         }
         firstPunch =true;
     }
@@ -122,21 +191,9 @@ void player::punch(){
         }
         else if (!faceLeft){
             state = STANCE_OFF_RIGHT_FLAT_PUNCH;
-            puncher.update(coords.x + 28, coords.y + 134);
+			puncher.update(coords.x + 251, coords.y + 134);
         }
         firstPunch = false;
-    }
-}
-
-void player::goLeft() {
-    if (moveRight == false){
-        moveLeft = true;
-    }
-}
-
-void player::goRight() {
-    if (moveLeft == false){
-        moveRight = true;
     }
 }
 
@@ -151,16 +208,21 @@ void player::kick(){
 }
 
 void player::reset(){
-    if (faceLeft){
-        state = STANCE_IDLE;
-        puncher.update(coords.x + 92, coords.y + 134);
-        shoe.update(coords.x + 122, coords.y + 354);
-    }
-    else {
-        state = STANCE_OFF_IDLE;
-        puncher.update(coords.x + 162, coords.y + 134);
-        shoe.update(coords.x + 101, coords.y + 354);
-    }
+	if (actionResetTime > 0) {
+		actionResetTime--;
+	}
+	else {
+		if (faceLeft) {
+			state = STANCE_IDLE;
+			puncher.update(coords.x + 92, coords.y + 134);
+			shoe.update(coords.x + 122, coords.y + 354);
+		}
+		else {
+			state = STANCE_OFF_IDLE;
+			puncher.update(coords.x + 162, coords.y + 134);
+			shoe.update(coords.x + 101, coords.y + 354);
+		}
+	}
 }
 
 void player::stop() {
@@ -170,22 +232,66 @@ void player::stop() {
 
 void player::stepLeft(){
     coords.x -= moveSpeed;
+	hitCoords.x -= moveSpeed;
+	hitCoords.w -= moveSpeed;
 }
 
 void player::stepRight() {
     coords.x += moveSpeed;
+	hitCoords.x += moveSpeed;
+	hitCoords.w += moveSpeed;
+}
+
+void player::control(const Uint8* passedKey) {
+
+	if (passedKey[keys[0]]) {
+		stepLeft();
+	}
+	else if (passedKey[keys[1]]) {
+		stepRight();
+	}
+	if (passedKey[keys[2]]) {
+		std::cout << "Player has ducked\n";
+	}
+	if (passedKey[keys[3]]) {
+		punch();
+		actionResetTime = 2;
+	}
+	if (passedKey[keys[4]]) {
+		kick();
+		actionResetTime = 2;
+	}
+	if (passedKey[keys[5]]) {
+		std::cout << "Plus has been pressed\n";
+		block();
+	}
+	else {
+		unBlock();
+	}
+
 }
 
 void player::operate(int dir, int hitA, int hitB) {
-    if (moveLeft){
-        stepLeft();
-    }
-    else if (moveRight){
-        stepRight();
-    }
+	setDirection(dir);
+
+	if (faceLeft) {
+		if (coords.x < hitA && !blocking) {
+			std::cout << "Player " << playerNumber << " Has been hit\n";
+		}
+	}
+
+	if (!blocking) {
+		reset();
+	}
 }
 
 void player::render(){
+	if (playerNumber == 1) {
+		boxRGBA(screen, coords.x + 120, coords.y + 160, coords.x + 180, coords.y + 190, 0, 255, 0, 255);
+	}
+	else if (playerNumber == 2) {
+		boxRGBA(screen, coords.x + 120, coords.y + 160, coords.x + 180, coords.y + 190, 0, 0, 255, 100);
+	}
     switch (state){
         case STANCE_IDLE: SDL_RenderCopy(screen, image.mTexture, &frames[0], &coords); break;
         case STANCE_LEFT_FLAT_PUNCH: SDL_RenderCopy(screen, image.mTexture, &frames[1], &coords); break;
@@ -199,4 +305,5 @@ void player::render(){
 	case STANCE_OFF_BLOCK: SDL_RenderCopy(screen, image.mTexture, &frames[9], &coords);
         default: break;
     }
+
 }

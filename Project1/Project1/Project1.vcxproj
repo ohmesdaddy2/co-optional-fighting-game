@@ -195,6 +195,7 @@ copy /Y "D:\Libraries\VC2015\libwexp-4.dll" "$(OutputPath)"
     <ClInclude Include="..\..\Gtimer.hpp" />
     <ClInclude Include="..\..\player.hpp" />
     <ClInclude Include="..\..\stance.hpp" />
+    <ClInclude Include="lifeTracker.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\bagTest.cpp" />
@@ -207,6 +208,7 @@ copy /Y "D:\Libraries\VC2015\libwexp-4.dll" "$(OutputPath)"
     <ClCompile Include="..\..\Gtimer.cpp" />
     <ClCompile Include="..\..\main.cpp" />
     <ClCompile Include="..\..\player.cpp" />
+    <ClCompile Include="lifeTracker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\..\fonts\FreeMono.ttf" />

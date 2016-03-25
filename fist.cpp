@@ -8,7 +8,7 @@
 #include "fist.hpp"
 
 fist::fist() {
-    coords.w = 28;
+    coords.w = 30;
     coords.h = 30;
 }
 
@@ -27,6 +27,10 @@ short fist::getFistX(){
     return coords.x;
 }
 
-short fist::getFistY(){
-    return coords.y;
+short fist::getFistY() {
+	return coords.y;
+}
+    
+void fist::render(SDL_Renderer* screen) {
+	boxRGBA(screen, coords.x, coords.y, coords.x + coords.w, coords.y + coords.h, 255, 255, 255, 255);
 }

@@ -45,6 +45,9 @@
     <ClInclude Include="..\..\stance.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lifeTracker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\bagTest.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lifeTracker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

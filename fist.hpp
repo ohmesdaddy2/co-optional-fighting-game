@@ -23,9 +23,8 @@ public:
     
     short getFistY();
     
-#ifdef DEBUG_RENDER
     void render(SDL_Renderer* screen);
-#endif
+
 private:
     SDL_Rect coords;
 };

@@ -36,6 +36,9 @@ bool game::init(){
     user[1].setup(screen, 120, 240);
 	user[0].setup(screen, 600, 240);
 
+	user[0].setKeys(1);
+	user[1].setKeys(2);
+
     done = false;
     
     scoreBoard.setup(screen, "fonts/FreeMonoBold.ttf", 50, "rc", 230, 50);
@@ -45,82 +48,40 @@ bool game::init(){
     return true;
 }
 
-bool game::kickTheBag(int a, int b){
+/*bool game::kickTheBag(int a, int b){
     if (hangingBag.struck(a, b) == true){
 		return true;
     }
 	else {
 		return false;
 	}
-}
+}*/
 
-void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode){
-    switch(unicode){
-        case SDL_SCANCODE_ESCAPE: done = true; break;
-        default: break;
-    }
-    if (unicode == SDL_SCANCODE_KP_5){
-        user[0].kick();
-        createTheScore();
-    }
-    if (unicode == SDL_SCANCODE_KP_4){
-        user[0].punch();
-        createTheScore();
-    }
-    if (unicode == SDL_SCANCODE_Q){
-        user[1].punch();
-        createTheScore();
-    }
-    if (unicode == SDL_SCANCODE_E ){
-        user[1].kick();
-        createTheScore();
-    }
-    if (unicode == SDL_SCANCODE_A){
-        user[1].goLeft();
-    }
-    if (unicode == SDL_SCANCODE_D){
-        user[1].goRight();
-    }
-    if (unicode == SDL_SCANCODE_LEFT) {
-        user[0].goLeft();
-    }
-    if (unicode == SDL_SCANCODE_RIGHT) {
-        user[0].goRight();
-    }
-}
+void game::controlKeys() {
+	const Uint8 *keyState = SDL_GetKeyboardState(NULL);
+	
+	user[0].control(keyState);
+	user[1].control(keyState);
 
-void game::OnKeyUp(Uint32 sym, Uint32 mod, Uint16 unicode){
-    if (unicode == SDL_SCANCODE_KP_5){
-        user[0].reset();
-    }
-    if (unicode == SDL_SCANCODE_KP_4){
-        user[0].reset();
-    }
-    if (unicode == SDL_SCANCODE_Q){
-        user[1].reset();
-    }
-    if (unicode == SDL_SCANCODE_E ){
-        user[1].reset();
-    }
-    if (unicode == SDL_SCANCODE_A){
-        user[1].stop();
-    }
-    if (unicode == SDL_SCANCODE_D){
-        user[1].stop();
-    }
-    if (unicode == SDL_SCANCODE_LEFT) {
-        user[0].stop();
-    }
-    if (unicode == SDL_SCANCODE_RIGHT) {
-        user[0].stop();
-    }
+	if (keyState[SDL_SCANCODE_ESCAPE]) {
+		done = true;
+	}
+
 }
 
 void game::OnExit(){
     done = true;
 }
 
-void game::createTheScore(){
+void game::playerStrike() {
+	user[0].getHit(user[1].puncher.getFistX(), user[1].puncher.getFistY());
+	user[1].getHit(user[0].puncher.getFistX(), user[0].puncher.getFistY());
+
+	user[0].getHit(user[1].shoe.getX(), user[1].shoe.getY());
+	user[1].getHit(user[0].shoe.getX(), user[0].shoe.getY());
+}
+
+/*void game::createTheScore(){
 	std::stringstream tempString;
 	if (kickTheBag(user[0].puncher.getFistX(), user[0].puncher.getFistY() ) == true || kickTheBag(user[0].shoe.getX(), user[0].shoe.getY() ) == true ){
             player1Combo++;
@@ -139,6 +100,12 @@ void game::createTheScore(){
 	}
     scoreBoard.update(tempString.str());
     
+}*/
+
+void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode) {
+	if (sym == SDLK_ESCAPE){
+		done = true;
+	}
 }
 
 int game::run(){
@@ -153,17 +120,23 @@ int game::run(){
         while (SDL_PollEvent(&inputs)){
             Gevents::OnEvent(&inputs);
         }
+
+		controlKeys();
+
         user[0].operate(user[1].getX()+141, user[1].getX(), user[1].getY() );
-        user[1].operate(user[0].getX()+141, user[0].getX(), user[0].getY() );
+		user[1].operate(user[0].getX() + 141, user[0].getX(), user[0].getY());
+		playerStrike();
         //SDL_RenderClear(screen);
-        boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
         
-        hangingBag.render(screen);
+		boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
+
         user[0].render();
         user[1].render();
+
         if (player1Combo > 0 || player2Combo > 0){
                 scoreBoard.render();
         }
+
         SDL_RenderPresent(screen);
         
         SDL_Delay(1000/60);

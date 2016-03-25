@@ -19,6 +19,7 @@
 #include "foot.hpp"
 #include "stance.hpp"
 
+
 class player: public Gevents{
 public:
     player();
@@ -26,20 +27,27 @@ public:
     virtual ~player();
     
     bool setup( SDL_Renderer* passedScreen, int x, int y);
+
+	bool getHit(int a, int b);
+
+	//This is a temporary fuction until the menus are implemented
+	bool setKeys(int a);
     
     int getX();
     
     int getY();
     
+	void control(const Uint8* passedKey);
+
+	void block();
+
+	void unBlock();
+
     void setDirection(int a);
     
     void stepRight();
     
     void stepLeft();
-
-    void goLeft();
-
-    void goRight();
 
     void stop();
     
@@ -62,23 +70,42 @@ public:
     foot shoe;
     
 protected:
+
+	lifeTracker healthBar;
     
     bool faceLeft;
     
     bool firstPunch;
     
     bool kicking;
+
+	bool blocking;
     
     short state;
     
     SDL_Rect coords;
-    
+
+	SDL_Rect hitCoords;
+
     short actionState;
     
     short damageType;
     
     short moveSpeed;
-    
+
+	short actionResetTime;
+
+	short playerNumber;
+
+    /*This is the array for the controls
+		key 0 = Move Left
+		key 1 = Move Right
+		key 2 = Duck
+		key 3 = Punch
+		key 4 = Kick
+		key 5 = block
+		key 6 = jump
+	*/
     short keys[7];
     
     SDL_Rect frames[10];
