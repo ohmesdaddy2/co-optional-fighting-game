@@ -58,6 +58,10 @@ private:
     gTexture playerSprite;
     gText scoreBoard;
     
+    SDL_Texture* background;
+    
+    SDL_Rect backgroundCoords;
+    
     SDL_Renderer* screen;
     
     player user[2];

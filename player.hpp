@@ -18,6 +18,7 @@
 #include "fist.hpp"
 #include "foot.hpp"
 #include "stance.hpp"
+#include "lifeTracker.hpp"
 
 
 class player: public Gevents{
@@ -71,7 +72,7 @@ public:
     
 protected:
 
-	lifeTracker healthBar;
+    lifeTracker healthBar;
     
     bool faceLeft;
     

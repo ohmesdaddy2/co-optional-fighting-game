@@ -29,19 +29,29 @@ bool game::init(){
     
     screen = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_SOFTWARE||SDL_RENDERER_PRESENTVSYNC );
     
-    if (TTF_Init() <0){
-        std::cout<<"The text engine didn't load\n";
+    background = IMG_LoadTexture(screen, "sprites/Porch-Background.png");
+    
+    if (background == NULL){
+        std::cout<<"The background didn't load\n";
     }
     
+    backgroundCoords.x = 0;
+    backgroundCoords.y = 0;
+    SDL_GetWindowSize(window, &backgroundCoords.w, &backgroundCoords.h);
+    
+    if (TTF_Init() == -1){
+        std::cout<<"The text engine didn't load"<<TTF_GetError()<<"\n";
+    }
+    
+    user[0].setKeys(1);
+    user[1].setKeys(2);
+        
     user[1].setup(screen, 120, 240);
-	user[0].setup(screen, 600, 240);
-
-	user[0].setKeys(1);
-	user[1].setKeys(2);
-
+    user[0].setup(screen, 600, 240);
+    
     done = false;
     
-    scoreBoard.setup(screen, "fonts/FreeMonoBold.ttf", 50, "rc", 230, 50);
+    scoreBoard.setup(screen, "fonts/FreeMono.ttf", 50, " ", 230, 50);
     scoreBoard.setMainColor(255,255,0);
     scoreBoard.setOutlineColor(0, 255, 255);
     
@@ -121,20 +131,21 @@ int game::run(){
             Gevents::OnEvent(&inputs);
         }
 
-		controlKeys();
+	controlKeys();
 
         user[0].operate(user[1].getX()+141, user[1].getX(), user[1].getY() );
-		user[1].operate(user[0].getX() + 141, user[0].getX(), user[0].getY());
-		playerStrike();
+	user[1].operate(user[0].getX() + 141, user[0].getX(), user[0].getY());
+	playerStrike();
         //SDL_RenderClear(screen);
         
-		boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
+		//boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
+         SDL_RenderCopy(screen, background, NULL, &backgroundCoords);
 
         user[0].render();
         user[1].render();
 
         if (player1Combo > 0 || player2Combo > 0){
-                scoreBoard.render();
+            scoreBoard.render();
         }
 
         SDL_RenderPresent(screen);
@@ -142,6 +153,7 @@ int game::run(){
         SDL_Delay(1000/60);
     }
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
     return 0;
 }

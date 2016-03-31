@@ -45,6 +45,7 @@ bool player::setKeys(int a) {
 		keys[5] = SDL_SCANCODE_SLASH;
 		keys[6] = SDL_SCANCODE_W;
 	}
+        
 	return false;
 }
 
@@ -64,13 +65,13 @@ bool player::getHit(int a, int b) {
 void player::setDirection(int a){
     if (coords.x + 71 > a && !faceLeft){
         faceLeft = true;
-		hitCoords.x = coords.x + 154;
-		hitCoords.w = hitCoords.x + 101;
+	hitCoords.x = coords.x + 154;
+	hitCoords.w = hitCoords.x + 101;
     }
     else if (coords.x + coords.w - 71 < a && faceLeft){
         faceLeft = false;
-		hitCoords.x = coords.x + 28;
-		hitCoords.w = hitCoords.x + 101;
+	hitCoords.x = coords.x + 28;
+	hitCoords.w = hitCoords.x + 101;
     }
 }
 
@@ -83,18 +84,17 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
     image.loadFromFile(passedScreen, "sprites/playerSprite.png", 0, 0, 0);
     screen = passedScreen;
     moveSpeed = 5;
-	actionResetTime = 2;
-	playerNumber = 0;
+    actionResetTime = 2;
     
     coords.x = x;
     coords.y = y;
     coords.w = 282;
     coords.h = 356;
 	
-	hitCoords.x = coords.x + 154;
-	hitCoords.y = coords.y;
-	hitCoords.w = hitCoords.x + 101;
-	hitCoords.h = coords.h;
+    hitCoords.x = coords.x + 154;
+    hitCoords.y = coords.y;
+    hitCoords.w = hitCoords.x + 101;
+    hitCoords.h = coords.h;
 
     frames[0].x = 0;
     frames[0].y = 0;
@@ -136,27 +136,27 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
     frames[7].w = 282;
     frames[7].h = 356;
 
-    frames[8].x = 1445 - 282;
+    frames[8].x = 1454 - 282;
     frames[8].y = 0;
     frames[8].w = 282;
     frames[8].h = 356;
 
-    frames[9].x = 1445 - 282;
+    frames[9].x = 1454 - 282;
     frames[9].y = 357;
     frames[9].w = 282;
     frames[9].h = 356;
     
     state = STANCE_IDLE;
-	return true;
+    return true;
 }
 
 void player::block() {
 	blocking = true;
 	if (faceLeft) {
-		state = STANCE_BLOCK;
+            state = STANCE_BLOCK;
 	}
 	else if (!faceLeft) {
-		state = STANCE_OFF_BLOCK;
+            state = STANCE_OFF_BLOCK;
 	}
 }
 
@@ -164,10 +164,10 @@ void player::unBlock() {
 	if (blocking) {
 		blocking = false;
 		if (faceLeft) {
-			state = STANCE_IDLE;
+                    state = STANCE_IDLE;
 		}
 		else if (!faceLeft) {
-			state = STANCE_OFF_IDLE;
+                    state = STANCE_OFF_IDLE;
 		}
 	}
 }
@@ -180,7 +180,7 @@ void player::punch(){
         }
         else if (!faceLeft){
             state = STANCE_OFF_LEFT_FLAT_PUNCH;
-			puncher.update(coords.x + 251, coords.y + 134);
+            puncher.update(coords.x + 251, coords.y + 134);
         }
         firstPunch =true;
     }
@@ -191,7 +191,7 @@ void player::punch(){
         }
         else if (!faceLeft){
             state = STANCE_OFF_RIGHT_FLAT_PUNCH;
-			puncher.update(coords.x + 251, coords.y + 134);
+            puncher.update(coords.x + 251, coords.y + 134);
         }
         firstPunch = false;
     }
@@ -204,6 +204,7 @@ void player::kick(){
     }
     else if (!faceLeft){
         state = STANCE_OFF_KICK;
+        shoe.update(coords.x + 216, coords.y + 185);
     }
 }
 
@@ -212,16 +213,16 @@ void player::reset(){
 		actionResetTime--;
 	}
 	else {
-		if (faceLeft) {
-			state = STANCE_IDLE;
-			puncher.update(coords.x + 92, coords.y + 134);
-			shoe.update(coords.x + 122, coords.y + 354);
-		}
-		else {
-			state = STANCE_OFF_IDLE;
-			puncher.update(coords.x + 162, coords.y + 134);
-			shoe.update(coords.x + 101, coords.y + 354);
-		}
+            if (faceLeft) {
+                state = STANCE_IDLE;
+                puncher.update(coords.x + 92, coords.y + 134);
+                shoe.update(coords.x + 122, coords.y + 354);
+            }
+            else {
+                state = STANCE_OFF_IDLE;
+                puncher.update(coords.x + 162, coords.y + 134);
+                shoe.update(coords.x + 101, coords.y + 354);
+            }
 	}
 }
 

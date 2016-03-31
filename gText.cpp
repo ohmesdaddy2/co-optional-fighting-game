@@ -39,7 +39,7 @@ void gText::update(std::string updatedText = ""){
 	if (text != "") {
 		SDL_Surface* tempSurface = TTF_RenderText_Solid(mainFont, text.c_str(), mainColor);
 		SDL_Surface* tempOutlineSurface = TTF_RenderText_Solid(outlineFont, text.c_str(), outlineColor);
-
+                
 		mainTexture = SDL_CreateTextureFromSurface(mainScreen, tempSurface);
 		if (mainTexture == NULL) {
 			std::cout << "Unable to create the texture " + text + " \n";
@@ -90,13 +90,13 @@ bool gText::setup(SDL_Renderer* a, std::string fontPath, int fontSize, std::stri
     mainFont = TTF_OpenFont(fontPath.c_str(), fontSize);
     
     if (mainFont == NULL){
-        std::cout<<"The font didn't load\n";
+        std::cout<<"The font didn't load "<<TTF_GetError()<<"\n";
     }
     
     outlineFont = TTF_OpenFont(fontPath.c_str(), fontSize + 5);
     
     if (outlineFont == NULL){
-        std::cout<<"The outline font didn't load\n";
+        std::cout<<"The outline font didn't load "<<TTF_GetError()<<"\n";
     }
     
     //TTF_SetFontOutline(outlineFont, 2);
