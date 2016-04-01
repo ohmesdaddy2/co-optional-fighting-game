@@ -49,14 +49,16 @@ bool player::setKeys(int a) {
 	return false;
 }
 
-bool player::getHit(int a, int b) {
+bool player::getHit(int a, int b, int passedState) {
 	
-	if ( a > hitCoords.x && a < hitCoords.w && faceLeft && !blocking) {
-		std::cout << playerNumber<< "Hit from the left\n";
+	if ( a > hitCoords.x && a < hitCoords.w && faceLeft && !blocking && (passedState != STANCE_IDLE && passedState != STANCE_OFF_IDLE) ) {
+            healthBar.reduce(5);
+            std::cout<<playerNumber<<" struck from the left\n";
 		//return true;
 	}
-	if (a < hitCoords.w && a > hitCoords.x && !faceLeft && !blocking) {
-		std::cout << playerNumber<< " Hit from the right\n";
+	if (a < hitCoords.w && a > hitCoords.x && !faceLeft && !blocking && (passedState != STANCE_IDLE && passedState != STANCE_OFF_IDLE) ) {
+            healthBar.reduce(5);
+            std::cout<<playerNumber<<" struck from the right\n";
 		//return true;
 	}
 	return false;
@@ -147,7 +149,18 @@ bool player::setup( SDL_Renderer* passedScreen, int x, int y){
     frames[9].h = 356;
     
     state = STANCE_IDLE;
+    
+    if (playerNumber == 1){
+        healthBar.place(1105, 50);
+    }
+    else if (playerNumber == 2){
+        healthBar.place(100, 50);
+    }
     return true;
+}
+
+int player::checkState() {
+	return state;
 }
 
 void player::block() {
@@ -275,18 +288,15 @@ void player::control(const Uint8* passedKey) {
 void player::operate(int dir, int hitA, int hitB) {
 	setDirection(dir);
 
-	if (faceLeft) {
-		if (coords.x < hitA && !blocking) {
-			std::cout << "Player " << playerNumber << " Has been hit\n";
-		}
-	}
-
 	if (!blocking) {
-		reset();
+            reset();
 	}
 }
 
 void player::render(){
+    
+    //rectangleRGBA(screen, hitCoords.x, hitCoords.y, hitCoords.w, hitCoords.h, 255, 255, 255, 255);
+    
 	if (playerNumber == 1) {
 		boxRGBA(screen, coords.x + 120, coords.y + 160, coords.x + 180, coords.y + 190, 0, 255, 0, 255);
 	}
@@ -306,5 +316,5 @@ void player::render(){
 	case STANCE_OFF_BLOCK: SDL_RenderCopy(screen, image.mTexture, &frames[9], &coords);
         default: break;
     }
-
+    healthBar.render(screen);
 }

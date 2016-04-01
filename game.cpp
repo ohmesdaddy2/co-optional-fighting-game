@@ -84,11 +84,14 @@ void game::OnExit(){
 }
 
 void game::playerStrike() {
-	user[0].getHit(user[1].puncher.getFistX(), user[1].puncher.getFistY());
-	user[1].getHit(user[0].puncher.getFistX(), user[0].puncher.getFistY());
+	
+    user[0].getHit(user[1].puncher.getFistX(), user[1].puncher.getFistY(), user[1].checkState());
+    user[0].getHit(user[1].shoe.getX(), user[1].shoe.getY(), user[1].checkState());
 
-	user[0].getHit(user[1].shoe.getX(), user[1].shoe.getY());
-	user[1].getHit(user[0].shoe.getX(), user[0].shoe.getY());
+
+    user[1].getHit(user[0].puncher.getFistX(), user[0].puncher.getFistY(), user[0].checkState() );
+    user[1].getHit(user[0].shoe.getX(), user[0].shoe.getY(), user[1].checkState() );
+	
 }
 
 /*void game::createTheScore(){
@@ -138,8 +141,8 @@ int game::run(){
 	playerStrike();
         //SDL_RenderClear(screen);
         
-		//boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
-         SDL_RenderCopy(screen, background, NULL, &backgroundCoords);
+	//boxRGBA(screen, 0, 0, 1280, 720, 0, 0, 0, 255);
+        SDL_RenderCopy(screen, background, NULL, &backgroundCoords);
 
         user[0].render();
         user[1].render();
@@ -150,7 +153,7 @@ int game::run(){
 
         SDL_RenderPresent(screen);
         
-        SDL_Delay(1000/60);
+        //SDL_Delay(1000/60);
     }
     IMG_Quit();
     TTF_Quit();

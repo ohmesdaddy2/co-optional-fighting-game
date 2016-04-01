@@ -29,7 +29,7 @@ public:
     
     bool setup( SDL_Renderer* passedScreen, int x, int y);
 
-	bool getHit(int a, int b);
+	bool getHit(int a, int b, int passedState);
 
 	//This is a temporary fuction until the menus are implemented
 	bool setKeys(int a);
@@ -37,6 +37,8 @@ public:
     int getX();
     
     int getY();
+    
+    int checkState();
     
 	void control(const Uint8* passedKey);
 
