@@ -53,12 +53,12 @@ bool player::getHit(int a, int b, int passedState) {
 	
 	if ( a > hitCoords.x && a < hitCoords.w && faceLeft && !blocking && (passedState != STANCE_IDLE && passedState != STANCE_OFF_IDLE) ) {
             healthBar.reduce(5);
-            std::cout<<playerNumber<<" struck from the left\n";
+            //std::cout<<playerNumber<<" struck from the left\n";
 		//return true;
 	}
 	if (a < hitCoords.w && a > hitCoords.x && !faceLeft && !blocking && (passedState != STANCE_IDLE && passedState != STANCE_OFF_IDLE) ) {
             healthBar.reduce(5);
-            std::cout<<playerNumber<<" struck from the right\n";
+            //std::cout<<playerNumber<<" struck from the right\n";
 		//return true;
 	}
 	return false;

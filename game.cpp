@@ -55,6 +55,10 @@ bool game::init(){
     scoreBoard.setMainColor(255,255,0);
     scoreBoard.setOutlineColor(0, 255, 255);
     
+    clock.startTime();
+    
+    loopCount = 0;
+    
     return true;
 }
 
@@ -87,7 +91,6 @@ void game::playerStrike() {
 	
     user[0].getHit(user[1].puncher.getFistX(), user[1].puncher.getFistY(), user[1].checkState());
     user[0].getHit(user[1].shoe.getX(), user[1].shoe.getY(), user[1].checkState());
-
 
     user[1].getHit(user[0].puncher.getFistX(), user[0].puncher.getFistY(), user[0].checkState() );
     user[1].getHit(user[0].shoe.getX(), user[0].shoe.getY(), user[1].checkState() );
@@ -129,7 +132,9 @@ int game::run(){
     }
     
     while (!done){
-
+        gameSec = clock.second;
+        loopCount++;
+        
         while (SDL_PollEvent(&inputs)){
             Gevents::OnEvent(&inputs);
         }
@@ -152,7 +157,9 @@ int game::run(){
         }
 
         SDL_RenderPresent(screen);
-        
+        if (loopCount > 60){
+            SDL_Delay(1000/60 - clock.beginningTime);
+        }
         //SDL_Delay(1000/60);
     }
     IMG_Quit();

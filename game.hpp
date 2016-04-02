@@ -24,6 +24,7 @@
 #include "fist.hpp"
 #include "foot.hpp"
 #include "Gevents.hpp"
+#include "Gtimer.hpp"
 
 #include "bagTest.hpp"
 
@@ -65,6 +66,12 @@ private:
     SDL_Renderer* screen;
     
     player user[2];
+    
+    Gtimer clock;
+    
+    short loopCount;
+    
+    Uint16 gameSec;
     
     //bagTest hangingBag;
     
