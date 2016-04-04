@@ -62,15 +62,6 @@ bool game::init(){
     return true;
 }
 
-/*bool game::kickTheBag(int a, int b){
-    if (hangingBag.struck(a, b) == true){
-		return true;
-    }
-	else {
-		return false;
-	}
-}*/
-
 void game::controlKeys() {
 	const Uint8 *keyState = SDL_GetKeyboardState(NULL);
 	
@@ -88,35 +79,12 @@ void game::OnExit(){
 }
 
 void game::playerStrike() {
-	
     user[0].getHit(user[1].puncher.getFistX(), user[1].puncher.getFistY(), user[1].checkState());
     user[0].getHit(user[1].shoe.getX(), user[1].shoe.getY(), user[1].checkState());
 
     user[1].getHit(user[0].puncher.getFistX(), user[0].puncher.getFistY(), user[0].checkState() );
     user[1].getHit(user[0].shoe.getX(), user[0].shoe.getY(), user[1].checkState() );
-	
 }
-
-/*void game::createTheScore(){
-	std::stringstream tempString;
-	if (kickTheBag(user[0].puncher.getFistX(), user[0].puncher.getFistY() ) == true || kickTheBag(user[0].shoe.getX(), user[0].shoe.getY() ) == true ){
-            player1Combo++;
-            player2Combo = 0;
-	}
-	else if (kickTheBag(user[1].puncher.getFistX(), user[1].puncher.getFistY() ) || kickTheBag(user[1].shoe.getX(), user[1].shoe.getY() ) == true){
-            player1Combo = 0;
-            player2Combo++;
-	}
-	
-	if (player1Combo > 0) {
-            tempString << player1Combo;
-	}
-	else if (player2Combo > 0) {
-            tempString << player2Combo;
-	}
-    scoreBoard.update(tempString.str());
-    
-}*/
 
 void game::OnKeyDown(Uint32 sym, Uint32 mod, Uint16 unicode) {
 	if (sym == SDLK_ESCAPE){
